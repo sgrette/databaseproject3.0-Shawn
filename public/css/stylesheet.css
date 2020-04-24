@@ -1,0 +1,215 @@
+body {
+	padding-top: 6rem;
+	padding-left: 15rem;
+	padding-right: 1rem;
+	margin: 0; 
+	background-color:white; /*white*/
+	color:black;
+	text-align: center;
+	list-style-position: inside;
+}
+
+/*start of Shawn's added code*/
+#login-error-msg-holder {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+#login-error-msg {
+    width: 23%;
+    text-align: center;
+    margin: 0;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #8a0000;
+    border: 1px solid #8a0000;
+    background-color: #e58f8f;
+    opacity: 0;
+}
+
+#error-msg-second-line {
+    display: block;
+}
+
+#confirm-msg-holder {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+#confirm-msg {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #0A6717;
+    border: 1px solid #0A6717;
+    background-color: #75FF8F;
+    opacity: 0;
+}
+/*end of Shawn's added code*/
+
+#login{
+	text-align: center; 
+	padding: 0px;
+	padding-top: 1rem;
+}
+
+header {
+	z-index: 1000;
+	top: 0px;
+	left: 0px;
+	position: absolute;
+	padding: 1rem;
+	padding-left: 2rem;
+	width: 100%;
+	background: #2e2c2f; /*black*/
+	display: block;
+	height: 2rem;
+	font-size: 29px;
+	color: white; /*white*/
+	text-align: left;
+}
+
+h2:hover {
+	background: #475b63; /*dark*/
+	color: white;
+}
+
+li:hover {
+	background: #475b63; /*dark*/
+	color: white;
+}
+
+#side-menu {
+	left: 0px;
+	position: absolute;
+	height: 100%;
+	width: 10rem;
+	top: 4rem;
+	background: #475b63; /*dark*/
+	display: block;
+	color: white;
+	padding: 1rem;
+	padding-left: 2rem;
+	font-size: 20px;
+	text-align: left;
+}
+
+#side-menu > p:hover {
+	background: #cfe6c4; /*light*/
+	color: black;
+}
+
+.project {
+	background: #cfe6c4; /*light*/
+	height: 3rem;
+	padding: 1rem;
+	text-align: left;
+}
+.project > h1{
+	font-size: 2.5em;
+	position: absolute;
+}
+.project > h1:hover {
+	background: #475b63; /*dark*/
+	color: white;
+}
+.project > div{
+	text-align: right;
+}
+
+#profile {
+	color: white;
+	z-index: 2000;
+	position: absolute;
+	height: 8rem;
+	width: 8rem;
+	top: 1rem;
+	right: 3rem;
+	background: #65b973; /*medium*/
+}
+
+.task{
+	background: #cfcfcf;
+}
+
+.column {
+  float: left;
+  width: 22%;
+  background: #475b63; /*dark*/
+  border-style: solid;
+  border-color: white;
+  padding: 5px;
+}
+
+.column > h2{
+    color: #65b973; /*medium*/
+}
+
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
+
+#taskBlock{
+	display: none;
+	border-style: solid;
+    border-color: white;
+	background: #cfe6c4; /*light*/
+	padding: 2rem;
+	position: absolute;
+	top: 9.5rem;
+	left: 30%;
+	width: 650px;
+	height: 385px;
+	text-align: left;
+}
+
+#right{
+	right: 2rem;
+	top: 5rem;
+	position: absolute;
+	text-align: right;
+}
+
+#center{
+	top: 5rem;
+	position: absolute;
+	text-align: center;
+}
+
+#editMeetBlock{
+	display: none;
+	border-style: solid;
+    border-color: white;
+	background: #cfe6c4; /*light*/
+	padding: 2rem;
+	position: absolute;
+	top: 9.5rem;
+	left: 40%;
+	width: 235px;
+	height: 385px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+.topTable {
+	background: #475b63; /*dark*/
+	color: white;
+}

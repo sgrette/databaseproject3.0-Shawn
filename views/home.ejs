@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>PM Login</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="/style.css">
+		<script src="/jquery.min.js"></script>
+		<script src="/setup.js"></script>
+	</head>
+	<body>
+		<header>Project Management Home Screen</header>
+		<!-- start of Shawn's added code -->
+        <p id="confirm-msg-holder"> <!--display by using document.getElementById("confirm-msg").style.opacity = 1; in js-->
+            <p id="confirm-msg"></p>
+        </p>
+        <!-- end of Shawn's added code -->
+		<div id = "profile">
+			<p id = "id" >Welcome</p>
+			<p id = "fName">FirstName</p>
+			<p id = "lName">LastName</p>
+		</div>
+		<div id="side-menu">
+			<p id = "sm-project" onclick = 'new function(){ hideAll(1); $("#projectBlock").css("display", "block");}; hideConfirm();'>Projects</p>
+			<p class = "admin" onclick = 'new function(){window.open("/register")}'>Account Creation</p>
+			<p id = "sm-profile" onclick = "loadProfile(); hideConfirm();">Profile</p>
+			<p id = "sm-dueToday" onclick = "loadDueToday(); hideConfirm();">Due Today</p>
+			<p id = "sm-Meetings" onclick = "loadMeeting(); hideConfirm();">Meetings</p>
+			<p class = "pl" onclick = "loadFinances(); hideConfirm();">Finances</p>
+			<p class = "admin" onclick = "loadAdmin(); hideConfirm();">Admin View</p>
+			<p class = "admin" onclick = 'new function(){ hideAll(1); $("#reportBlock").css("display", "block");}; hideConfirm();' >Reports</p>
+			<form method="get" action = "/">
+				<button type="submit">Back to Login</button>
+			</form>
+		</div>
+
+		<div id="projectBlock">
+			<h1>Project List</h1>
+			<div id="projects">
+				<p id = "ifNoProj"> No projects Assigned </p>
+			</div>
+		</div>
+		<div id="profileBlock" style = "display: none;">
+			<h1>Profile</h1>
+			<div id="profileInfo">
+			</div>
+		</div>
+		<div id="dueTodayBlock" style = "display: none;">
+			<h1>Due Today:</h1>
+			<div id="dueToday">
+			</div>
+		</div>
+			<div id="meetingBlock" style = "display: none;">
+			<h1>Meetings:</h1>
+			<h2 style = "pointer-events: none;">Meetings Today:</h2>
+			<div id="meetingsToday"></div>
+			<h2 style = "pointer-events: none;" >Future Meetings:</h2>
+			<div id="meetings"></div>
+		</div>
+		<div id="financeBlock" style = "display: none;">
+			<h1>Finances:</h1>
+			<div id="finance">
+			</div>
+		</div>
+		<div id="acctBlock" style = "display: none;">
+			<h1>New Account Creation:</h1>
+			<div id="newAcct">
+			</div>
+		</div>
+		<div id="reportBlock" style = "display: none;"><br><br>
+			<h1>Projects Completed During Set Dates:</h1>
+			<label for="deptID2">Select Department:</label><br>
+			<select id="editDept" name="deptID2">
+				  <option value="0"> All </option>
+			</select><br>
+			<form  action = "/reportProject" id = "projReport" method = "POST">
+				<label for="sdate1">Start Date:</label><br>
+				<input type="datetime-local" id="sDate1" name="sDate" required=""><br>
+				<label for="fdate1">End Date:</label><br>
+				<input type="datetime-local" id="fdate1" name="fDate" required=""><br>
+				<input type="submit" name="action" value="Fetch Report">
+				<input type="text" id="IDReport" name="IDReport" style = "display: none;" readonly>
+			</form>
+			<h1>Transactions made During Set Dates:</h1>
+			<label for="projID2">Select Project:</label><br>
+			<select id="editDept" name="projID2">
+				  <option value="1"> All </option>
+			</select><br>
+			<form action = "/reportTrans"id = "transReport" method = "post">
+			<label for="sdate1">Start Date:</label><br>
+			<input type="datetime-local" id="sDate1" name="sDate" required=""><br>
+			<label for="fdate1">End Date:</label><br>
+			<input type="datetime-local" id="fdate1" name="fDate" required=""><br>
+			<input type="submit" name="action" value="Fetch Report">
+			<input type="text" id="IDReport2" name="IDReport" style = "display: none;" readonly>
+			</form>
+			<div id="report2">
+			</div>
+		</div>
+		<div id="adminBlock" style = "display: none;">
+			<h1>Admin View</h1>
+			<h2 style = "pointer-events: none;"  >Employee List:   <button type="submit" onclick = "collExp(empList)" style = "pointer-events: auto;" >Collapse/Expand</button></h2>
+			<table style="width:100%" id="empList" >
+			  <tr>
+				<th class = "topTable" >First Name</th>
+				<th class = "topTable"  >Middle Name</th>
+				<th class = "topTable"  >Last Name</th>
+				<th class = "topTable"  >Department ID</th>
+				<th class = "topTable"  >Project List</th>
+				<th class = "topTable" >Pay Rate</th>
+				<th class = "topTable"  >Pay Type</th>
+				<th class = "topTable"  >Last Paycheck</th>
+				<th class = "topTable"  >Employee ID</th>
+				<th class = "topTable"  >Employee Type</th>
+			  </tr>
+			</table><br>
+			<button type="submit" onclick = "new function(){window.open('/register')}">Add Employee</button>
+			<button type="submit" onclick = "new function(){$('#empForm').css('display', 'block');$('#editEmp').css('display', '');$($('#editEmp').prev().prev()).css('display', '')}">Edit/Delete Employee</button><br>
+			<label for="empID" style = "display: none;">Select Employee:</label><br>
+				<select id="editEmp" name="empID" onchange = "popEmp()" style = "display: none;">
+				  <option value=""> - </option>
+				</select><br>
+			<form action = "/deleteEmployee" id = "empForm" method = "post" style = "display: none;">
+				<label for="fname">First Name:</label><br>
+				<input type="text" id="fname" name="fname" required=""><br>
+				<label for="mname">Middle Name:</label><br>
+				<input type="text" id="mname" name="mname"><br>
+				<label for="lname">Last Name:</label><br>
+				<input type="text" id="lname" name="lname" required=""><br>
+				<label for="deptID">Department ID:</label><br>
+				<input type="text" id="deptID" name="deptID" required=""><br>
+				<label for="payrate">Pay Rate: </label><br>
+				<input type="text" id="payrate" name="payrate" required=""><br>
+				<input type="radio" id="salary" name="salOrHour" value="1">
+				<label for="Salary" required="">Salary</label><br>
+				<input type="radio" id="hourly" name="salOrHour" value="0">
+				<label for="Hourly" required="">Hourly</label><br>
+				<label>Employee Type:</label><br>
+				<input type="radio" id="emp" name="empType" value="emp">
+				<label for="emp" required="">Employee</label><br>
+				<input type="radio" id="projectLead" name="empType" value="pl">
+				<label for="projectLead" required="">Project Lead</label><br>
+				<input type="radio" id="admin" name="empType" value="admin">
+				<label for="projectLead" required="">Admin</label><br>
+				<input type="submit" name="action" value="Submit" onclick="showConfirm('empForm')">
+				<input type="submit" name="action" value="Delete Employee" onclick="showConfirm('empForm')">
+				<input type="text" id="empIDForm" name="empIDForm" style = "display: none;" readonly>
+			</form>
+			<h2 style = "pointer-events: none;" >Project List:   <button type="submit" onclick = "collExp(projList)" style = "pointer-events: auto;" >Collapse/Expand</button></h2>
+			<table style="width:100%" id="projList" >
+			  <tr>
+				<th class = "topTable" >Project ID</th>
+				<th class = "topTable"  >Project Name</th>
+				<th class = "topTable"  >Department</th>
+				<th class = "topTable"  >Project Lead</th>
+				<th class = "topTable"  >Project Members</th>
+				<th class = "topTable" >Start Date</th>
+				<th class = "topTable"  >Due Date</th>
+				<th class = "topTable"  >Budget</th>
+				<th class = "topTable"  >Current Balance</th>
+				<th class = "topTable"  >Estimated Time</th>
+				<th class = "topTable"  >Total Time</th>
+				<th class = "topTable"  >Status</th>
+			  </tr>
+			</table><br>
+			<button type="submit" onclick = "new function(){$('#projForm').css('display', 'block');$('#editProj').css('display', 'none');$($('#editProj').prev().prev()).css('display', 'none');$($('#projForm').children('input')[4]).removeAttr('value');$($('#projForm').children('input')[5]).removeAttr('value');$($('#projForm').children('input')[6]).removeAttr('readonly');$('#projectIDForm').attr('value','1');$('#projForm')
+            .find(':radio, :checkbox').removeAttr('checked').end()
+            .find('textarea, :text, select').val('')}">Add Project</button>
+			<button type="submit" onclick = "new function(){$('#projForm').css('display', 'block');$('#editProj').css('display', '');$($('#editProj').prev().prev()).css('display', '');}">Edit/Delete Project</button><br>
+			<label for="projID" style = "display: none;" >Select Project:</label><br>
+			<select id="editProj" style = "display: none;" onchange = "popProj()">
+				  <option value=""> - </option>
+			</select><br>
+			<form action = "/editProjects" id = "projForm" method = "POST" style = "display: none;">
+				<label for="title">Project Name:</label><br>
+				<input type="text" id="title" name="title" required=""><br>
+				<label for="overview">Overview:</label><br>
+				<textarea name="overview" id= "overviewP" form="projForm" style = "width: 300px; height: 60px;">Enter text here...</textarea><br>
+				<label for="deptID">Department ID:</label><br>
+				<input type="text" id="deptID" name="deptID" required=""><br>
+				<label for="projLead">Project Lead:</label><br>
+				<input type="text" id="projLEad" name="projLead" required=""><br>
+				<label for="empListForm">Project Members:</label><br>
+				<input type="text" id="empLisFormt" name="empListForm"><br>
+				<label for="startDate">Start Date: </label><br>
+				<input type="datetime-local" id="startDate" name="startDate" required=""><br>
+				<label for="finDate">Due Date:</label><br>
+				<input type="datetime-local" id="finDate" name="finDate" required=""><br>
+				<label for="budget">Budget:</label><br>
+				<input type="text" id="budget" name="budget" required=""><br>
+				<label for="estTime">Estimated Time: </label><br>
+				<input type="text" id="estTime" name="estTime"><br>
+				<input type="submit" name="action" value="Submit" onclick="showConfirm('projForm')">
+				<input type="submit" name="action" value="Delete Project" onclick="showConfirm('projForm')">
+				<input type="text" id="projectIDForm" name="projectIDForm" style = "display: none;" readonly>
+			</form>
+			<h2 style = "pointer-events: none;" >Department List:   <button type="submit" onclick = "collExp(deptList)" style = "pointer-events: auto;" >Collapse/Expand</button></h2>
+			<table style="width:100%" id="deptList" >
+			  <tr>
+				<th class = "topTable" >Department ID</th>
+				<th class = "topTable"  >Department Head</th>
+				<th class = "topTable"  >Employee List</th>
+				<th class = "topTable"  >Project List</th>
+				<th class = "topTable" >Current Balance</th>
+			  </tr>
+			</table><br>
+			<button type="submit" onclick = "new function(){$('#deptForm').css('display', 'block');$('#editDept').css('display', 'none');$($('#editDept').prev().prev()).css('display', 'none');$($('#deptForm').children('input')[2]).removeAttr('readonly');$('#deptIDForm').attr('value','1');$('#deptForm')
+            .find(':radio, :checkbox').removeAttr('checked').end()
+            .find('textarea, :text, select').val('')}">Add Department</button>
+			<button type="submit" onclick = "new function(){$('#deptForm').css('display', 'block');$('#editDept').css('display', '');$($('#editDept').prev().prev()).css('display', '');}">Edit/Delete Department</button><br>
+				<label for="deptID" style = "display: none;">Select Department:</label><br>
+				<select id="editDept" style = "display: none;" name="deptID" onchange = "popDept()" required>
+				  <option value=""> - </option>
+				</select><br>
+			<form  action = "/admin/editDepartment" id = "deptForm" method = "post" style = "display: none;">
+				<label for="deptHead">Department Head:</label><br>
+				<input type="text" id="deptHead" name="deptHead" required=""><br>
+				<label for="employeeList">Employee List:</label><br>
+				<input type="text" id="employeeList" name="employeeList"><br>
+				<label for="deptBal">Current Balance:</label><br>
+				<input type="text" id="deptBal" name="deptBal"><br>
+				<input type="submit" name="action" value="Submit" onclick="showConfirm('deptForm')">
+				<input type="submit" name="action" value="Delete Department" onclick="showConfirm('deptForm')">
+				<input type="text" id="deptIDForm" name="deptIDForm" style = "display: none;" readonly>
+			</form>
+			
+		</div>
+		<form method="post" action = "/project.html" style = "display: none;" id = "openProject"> <!-- just change get to post -->
+			<input type="text" id="projID" name="projID" required>
+			<input type="text" id="employeeID" name="employeeID" required>
+		</form>
+		<script>
+			checkLogIn();
+			<!-- start of Shawn's added code -->
+			function showConfirm(id) {
+			    var x = "";
+			    if(id == "empForm"){
+                    x = document.createTextNode("[NEW]    SUCCESS: Data for Employees has been changed!");
+                    document.getElementById("confirm-msg").innerHTML = "";
+			        document.getElementById("confirm-msg").appendChild(x);
+                    document.getElementById("confirm-msg").style.opacity = 1;
+                }
+                else if(id == "projForm"){
+                    x = document.createTextNode("[NEW]    SUCCESS: Data for Projects has been changed!");
+                    document.getElementById("confirm-msg").innerHTML = "";
+			        document.getElementById("confirm-msg").appendChild(x);
+                    document.getElementById("confirm-msg").style.opacity = 1;
+                }
+                else if(id == "deptForm"){
+                    x = document.createTextNode("[NEW]    SUCCESS: Data for Departments has been changed!");
+                    document.getElementById("confirm-msg").innerHTML = "";
+			        document.getElementById("confirm-msg").appendChild(x);
+                    document.getElementById("confirm-msg").style.opacity = 1;
+                }
+            }
+            function hideConfirm(){
+                document.getElementById("confirm-msg").style.opacity = 0;
+            }
+            <!-- end of Shawn's added code -->
+		</script>
+	</body>
+</html>

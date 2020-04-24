@@ -1,0 +1,86 @@
+﻿<html>
+	<head>
+		<title>PM Report</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="/style.css">
+		<script src="/jquery.min.js"></script>
+		<script src="/setup.js"></script>
+	</head>
+	<body style = "padding: 2rem;">
+		<h1 id = "report1Head" style = "display: none;">Completed Projects between</h1>
+		<table style="width:100%; display: none;" id="report1" >
+		  <tr>
+			<th class = "topTable" >Project ID</th>
+			<th class = "topTable"  >Project Name</th>
+			<th class = "topTable"  >Department</th>
+			<th class = "topTable"  >Project Lead</th>
+			<th class = "topTable"  >Project Members</th>
+			<th class = "topTable" >Start Date</th>
+			<th class = "topTable"  >Due Date</th>
+			<th class = "topTable"  >Budget</th>
+			<th class = "topTable"  >Current Balance</th>
+			<th class = "topTable"  >Estimated Time</th>
+			<th class = "topTable"  >Total Time</th>
+			<th class = "topTable"  >Status</th>
+		  </tr>
+		</table>
+		<h1 id = "report2Head" style = "display: none;">Transactions made between</h1>
+		<table style="width:100%; display: none;" id="report2" >
+		  <tr>
+			<th class = "topTable" >Transaction ID</th>
+			<th class = "topTable"  >Paid to:</th>
+			<th class = "topTable"  >Paid by:</th>
+			<th class = "topTable"  >Amount</th>
+			<th class = "topTable"  >Description</th>
+			<th class = "topTable" >Destination</th>
+			<th class = "topTable"  >Date</th>
+		  </tr>
+		</table><br>
+	</body>
+	<script>
+		var arr = window.location.href.split("/");
+		var sDate = arr[arr.length-4];
+	    var fDate = arr[arr.length-3];
+		var s = (sDate).split('-');
+		var f = (fDate).split('-');
+		var id = arr[arr.length-2];
+		$.getJSON('/' + sDate +'/' + fDate +'/' + id +'/report.json', function(js) {
+			if(js.data[0].amount == ""){
+				$.each( js.data, function( n, project){
+					var a = (project.startDate).split('-');
+					var b = (project.finDate).split('-');
+                  $("#report1").append(
+				  	'<tr id = "' + project.projectID + '-row"><th>' + project.projectID + '</th><th> ' + project.title + '</th><th>' + project.deptID +'</th><th class = "empRename">'+ project.projectLead +'</th><th class = "empRename" id = "' + project.projectID + '-list"></th><th>'+ a[1] + "/" + a[2].substring(0,2) + "/" + a[0] +'</th><th>'+ b[1] + "/" + b[2].substring(0,2) + "/" + b[0] +'</th><th>$' + project.budget +'</th><th>$'+ project.current_balance +'</th><th>' + project.estTime + ' hrs.</th><th>' + project.timeTotal + ' hrs.</th><th>' + project.status + '</th></tr>');
+				})
+				$("#report1").css("display: block;");
+				$("#report1Head").html($("#report1Head").html() + s[1] + "/" + s[2].substring(0,2) + "/" + s[0] + " and " + f[1] + "/" + f[2].substring(0,2) + "/" + f[0] + " For Department ID: " + id);
+				$("#report1Head").css("display: block;");
+			}
+			else{
+				$.each( js.data, function( n, trans){
+					var a = (trans.date).split('-');
+					var payID = "";
+					if(trans.projectID != ""){
+						payID = trans.projectID;
+					}
+					else{
+						payID =trans.empID;
+					}
+                  $("#report2").append(
+				  	'<tr><th>' + trans.transID + '</th><th>' + payID+ '</th><th>' + trans.payerID + '</th><th>$' + trans.amount + '</th><th>' + trans.description + '</th><th>' + trans.destination + '</th><th>'+ a[1] + "/" + a[2].substring(0,2) + "/" + a[0] +'</th></tr>');
+
+				})
+				$("#report2").css("display: block;");
+				$("#report2Head").html($("#report1Head").html() + s[1] + "/" + s[2].substring(0,2) + "/" + s[0] + " and " + f[1] + "/" + f[2].substring(0,2) + "/" + f[0] + " For Project ID: " + id);
+				$("#report2Head").css("display: block;");
+			}
+		})
+		  .done(function() {
+		  })
+		  .fail( function(d, textStatus, error) {
+			console.error("getJSON failed, status: " + textStatus + ", error: "+error)
+		  })
+	</script>
+</html>

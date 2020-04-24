@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>PM Login</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="/style.css">
+		<script src="/jquery.min.js"></script>
+		<script src="/setup.js"></script>
+	</head>
+	<body onLoad="showConfirm()">
+        <script>
+            function showConfirm(){
+                document.getElementById("confirm-msg").style.width = '80%';
+                document.getElementById("confirm-msg").style.opacity = 1;
+            }
+        </script>
+        <!-- start of Shawn's added code -->
+        <p id="confirm-msg-holder"> <!--display by using document.getElementById("confirm-msg").style.opacity = 1; in js-->
+            <p id="confirm-msg">SUCCESS: A new user has been added!</p>
+        </p>
+        <!-- end of Shawn's added code -->
+    </body>
+</html>

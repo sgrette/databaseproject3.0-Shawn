@@ -1,0 +1,117 @@
+<html>
+	<head>
+		<title>PM Login</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="/style.css">
+		<script src="/jquery.min.js"></script>
+		<script src="/setup.js"></script>
+		<script>
+			loadProjView();
+		</script>
+	</head>
+	<body>
+		<header>Project View Screen</header>
+		<div id="side-menu">
+			<h4 style = "margin: 0px;">Overview:</h4>
+			<p id = "overview" style = "pointer-events:none; padding-left:1rem; margin-top: 0px;" ></p>
+			<p onclick = 'new function(){ hideAll(0); $("#projectBlock").css("display", "block");}'>Task View</p>
+			<p onclick = 'new function(){$("#taskBlock").css("display", "block");}'>Add New Task</p>
+			<p onclick = 'new function(){$("#editMeetBlock").css("display", "block");}'>Organize a Meeting</p>
+			<p class = "pl" onclick = "loadMeetLog()">Meeting Log</p>
+			<p>Analytics</p>
+			<p class = "pl"></p>
+			<p class = "admin"></p>
+			<form id = "backToHome" method="post" action = "/home.html">
+				<input type="text" id="empID" name="empID" style = "display: none;" required>
+				<button type="submit">Back to Home</button>
+			</form>
+			<form method="get" action = "/">
+				<button type="submit">Back to Login</button>
+			</form>
+			
+		</div>
+		<div id="projectBlock" style = "display: block;">
+			<h1 id = "projectName">Project List</h1>
+			<div class="row">
+				<div class="column" id = "OPEN">
+					<h2>Open</h2>
+				</div>
+				<div class="column" id = "BLOCKED">
+					<h2>Blocked</h2>
+				</div>
+				<div class="column" id = "WIP">
+					<h2>Work in Progress</h2>
+				</div>
+				<div class="column" id = "CLOSED">
+					<h2>Closed</h2>
+				</div>
+			</div>
+		</div>
+		<div id="taskBlock">
+			<div style = "position: absolute; top: 2rem; right: 2rem; background: white;" onclick = "loadTask()"> X </div> 
+			<form action = "/updatetask" id = "taskForm" method="post">
+				<input type="text" id="title" name="title" value = "(task name)" style= "font-size: 38px;" required><br><br>
+				<label for="overview2">Overview:</label><br>
+				<textarea name="overview2" id= "overview2" form="taskForm" style = "width: 300px; height: 260px;">Enter text here...</textarea><br>
+				<label for="tags">Tags:</label><br>
+				<input type="text" id="tags" name="tags"><br>
+				<div id = "right">
+					<label for="empIDForm">Employee ID:</label><br>
+					<input type="text" id="empIDForm" name="empIDForm"><br>
+					<label for="startDate">Start Date:</label><br>
+					<input type="datetime-local" id="startDate" name="startDate" required><br>
+					<label for="estTime">Estimated Completion Time: </label><br>
+					<input type="text" id="estTime" name="estTime"><br>
+					<label for="startDate">Finish Date:</label><br>
+					<input type="datetime-local" id="finDate" name="finDate" readonly><br>
+					<label for="totalTime">Total Completion Time: </label><br>
+					<input type="text" id="totalTime" name="totalTime"><br>
+					<input type="radio" id="OPEN2" name="status" value="OPEN">
+					<label for="OPEN2" required>Open</label><br>
+					<input type="radio" id="WIP2" name="status" value="WIP">
+					<label for="WIP2" required>Work In Progress</label><br>
+					<input type="radio" id="BLOCKED2" name="status" value="BLOCKED">
+					<label for="BLOCKED2" required>Blocked</label><br>
+					<input type="radio" id="CLOSED2" name="status" value="CLOSED">
+					<label for="CLOSED2" required>Closed</label><br><br><br><br>
+					<input type="submit" style= "bottom: 2rem;" name="action"value="Save">
+					<input type="submit" style= "bottom: 2rem;" name="action" value="Delete Task">
+					<input type="text" id="taskID" name="taskID" style = "display: none;" readonly>
+					<input type="text" id="projectIDForm" name="projectIDForm" style = "display: none;" readonly>
+				</div>
+			</form>
+		</div>
+		<div id="meetingBlock" style = "display: none;">
+			<div id = "meetingLog">
+				<h1> Meeting Log: </h1>
+			</div>
+			<div id = "futureMeetings">
+				<h1> Future Meetings: </h1>
+			</div>
+		</div>
+		<div id="editMeetBlock">
+			<div style = "position: absolute; top: 2rem; right: 2rem; background: white;" onclick = "loadMeeting()"> X </div> 
+			<form id = "meetForm" method="post">
+				<p style= "font-size: 38px; margin: 0px;">Meeting:</p><br><br>
+				<div id = "center">
+					<label for="date">Date and Time:</label><br>
+					<input type="datetime-local" id="date" name="date" required><br>
+					<label for="empListForm">Employee List: </label><br>
+					<input type="text" id="empListForm" name="empListForm"><br>
+					<label for="notes">Meeting Notes:</label><br>
+					<textarea name="notes" id= "notes" form="meetForm" style = "width: 100%; height: 240px;">Enter text here...</textarea><br>
+					<input type="submit" style= "bottom: 2rem;" name="action" value="Save">
+					<input type="text" id="meetingID" name="meetingID" style = "display: none;" readonly>
+					<input type="text" id="projIDForm" name="projIDForm" style = "display: none;" readonly>
+				</div>
+			</form>
+		</div>
+		<div id="analBlock" style = "display: none;">
+			<h1> Project Analytics: </h1>
+			<div id = "analytics">
+			</div>
+		</div>
+	</body>
+</html>

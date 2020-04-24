@@ -1,0 +1,21 @@
+<h1> list of users</h1>
+    <p>
+            <ul>
+                    <% for(var i=0; i<data.length; i++) {%>
+                    <form action = "/userslist" method = "POST">
+                        <div>
+                            <label for= "name"><%= data[i]['empID'] %></label>  
+                            <label for= "email"><%= data[i]['deptID'] %></label> 
+                            <label for= "email"><%= data[i]['firstName'] %></label> 
+                            <label for= "email"><%= data[i]['midName'] %></label>
+                            <label for= "email"><%= data[i]['lastName'] %></label>
+                            <label for= "email"><%= data[i]['payrate'] %></label>
+                            <label for= "email"><%= data[i]['hourOrSal'] %></label>
+                            <label for= "email"><%= data[i]['datePayed'] %></label>
+                            <label for= "email"><%= data[i]['empType'] %></label>      
+                        </div>
+                    </form>
+                        
+                    <% } %>
+            </ul>
+    </p>

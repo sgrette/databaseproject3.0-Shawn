@@ -1,0 +1,38 @@
+<h1>Register user</h1>
+<form action = "/register" method = "POST">
+    <div>
+        <label for= "firstName"> Name</label>
+        <input type = "firstName" id = "firstName" name = "firstName" required>
+    </div>
+    <div>
+        <label for= "midName"> Middle Name</label>
+        <input type = "midName" id = "midName" name = "midName">
+    </div>
+    <div>
+        <label for= "lastName"> Last Name</label>
+        <input type = "lastName" id = "lastName" name = "lastName" required>
+    </div>
+    <div>
+        <label for= "email"> Email</label>
+        <input type = "email" id = "email" name = "email" required>
+    </div>
+	<div>
+        <label for= "payrate"> Department ID: </label>
+        <input type = "text" id = "deptID" name = "deptID" required>
+    </div>
+    <div>
+        <label for= "payrate"> Pay Rate: </label>
+        <input type = "payrate" id = "payrate" name = "payrate" required>
+    </div>
+    <div>
+        <input type="radio" id="salary" name="hourOrSal" value="1">
+		<label for="Salary" required>Salary</label><br>
+		<input type="radio" id="hourly" name="hourOrSal" value="0">
+		<label for="Hourly" required>Hourly</label><br>
+    </div>
+    <div>
+        <label for= "empType"> Employee Type: </label>
+        <input type = "empType" id = "empType" name = "empType" required>
+</div>
+    <button type = "submit" > Register</button>
+</form>
